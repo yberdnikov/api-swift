@@ -34,7 +34,7 @@ class Ordrin {
         }
     }
     
-    func makeApiRequest( apiGroup : String, endpointPath : String, parameters: String[] /*, callback : typeIn -> typeOut */ ) {
+    func makeApiRequest( apiGroup : String, endpointPath : String, parameters: String[] , callback : (NSError?, NSDictionary?) -> () ) {
         // set up the host + path
         var urlPath = urls[apiGroup]! + endpointPath
         for param in parameters{
@@ -46,44 +46,31 @@ class Ordrin {
         var encodedUrl : NSString = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
         println(urlPath)
         // Agent stuff
-        var wait: Bool = true
         Agent.get(encodedUrl,
             done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
                 if (error) {
-                    println("error: \(error)")
+                    callback(error, nil)
                 } else {
                     var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
-                    println(results)
-                    wait = false
+                    callback(nil, results)
                 }
             })
-        
-        waitFor(&wait)
-        //return "done!" // change the return to what it's supposed to be
-    }
-    
-    
-    // may remove once properly passing in cb functions
-    func waitFor (inout wait: Bool) {
-        while (wait) {
-            NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 0.1))
-        }
     }
 
     
-    func restaurant_details(rid: String) {
-        makeApiRequest("restaurant", endpointPath: "/rd", parameters: [rid])
+    func restaurant_details(rid: String, callback: (NSError?, NSDictionary?) -> ()) {
+        makeApiRequest("restaurant", endpointPath: "/rd", parameters: [rid], callback: callback)
     }
     
-    func delivery_list(datetime: String, zip: String, city: String, addr: String) {
-        makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr])
+    func delivery_list(datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
+        makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr], callback: callback)
     }
     
-    func delivery_check(rid: String, datetime: String, zip: String, city: String, addr: String) {
-        makeApiRequest("restaurant", endpointPath: "/dc", parameters: [rid, datetime, zip, city, addr])
+    func delivery_check(rid: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
+        makeApiRequest("restaurant", endpointPath: "/dc", parameters: [rid, datetime, zip, city, addr], callback: callback)
     }
     
-    func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String) {
-        makeApiRequest("restaurant", endpointPath: "/fee", parameters: [rid, subtotal, tip, datetime, zip, city, addr])
+    func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
+        makeApiRequest("restaurant", endpointPath: "/fee", parameters: [rid, subtotal, tip, datetime, zip, city, addr], callback: callback)
     }
 }
