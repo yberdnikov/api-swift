@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22A9A251193FA93200C21E52 /* Ordrin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DE5FCA193E6B9700DE3A88 /* Ordrin.swift */; };
 		22DE5FC2193E664D00DE3A88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DE5FC1193E664D00DE3A88 /* main.swift */; };
 		22DE5FC9193E672400DE3A88 /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DE5FC8193E672400DE3A88 /* Agent.swift */; };
-		22DE5FCB193E6B9700DE3A88 /* Ordrin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DE5FCA193E6B9700DE3A88 /* Ordrin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -125,7 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22DE5FC2193E664D00DE3A88 /* main.swift in Sources */,
-				22DE5FCB193E6B9700DE3A88 /* Ordrin.swift in Sources */,
+				22A9A251193FA93200C21E52 /* Ordrin.swift in Sources */,
 				22DE5FC9193E672400DE3A88 /* Agent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +241,7 @@
 				22DE5FC7193E664D00DE3A88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
