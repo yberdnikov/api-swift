@@ -19,18 +19,15 @@ class Ordrin {
         var api_key = "orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck"
         var wait: Bool = true
 
-        //var url = "http://r-test.ordr.in/rd/\(rid)"
-        var url = "http:/headers.jsontest.com"
+        var url = "http://r-test.ordr.in/rd/\(rid)?_auth=1,\(api_key)"
         println("Sending req")
         println(url)
-        Agent.get(url, headers: "X-NAAMA-CLIENT-AUTHENTICATION", value: "id=\" \(api_key) \", version=\"1\"", done: { (error: NSError?, response: NSHTTPURLResponse?) -> () in
-            if (error) {
-                println(error)
-                return
-            }
-            println(response!)
+        var newUrl = NSURL(string: url)
+        var request = NSURLRequest(URL: newUrl)
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) in
+            println(NSString(data: data, encoding: NSUTF8StringEncoding))
             wait = false
-            })
+        })
         waitFor(&wait)
     }
     
