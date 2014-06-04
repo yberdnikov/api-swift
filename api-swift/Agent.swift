@@ -185,7 +185,7 @@ class Agent: NSObject {
         // TODO: handle error
         self.set("Content-Type", value: "application/json")
         self.request!.HTTPBody = json
-        println(data)
+        //println(data)
         return self
     }
 
@@ -233,9 +233,9 @@ class Agent: NSObject {
 
     func connectionDidFinishLoading(connection: NSURLConnection!){
         println("request complete")
-        println(self.error)
-        println(self.response)
-        println(self.data)
+        //println(self.error)
+        //println(self.response)
+        //println(self.data)
         self.myDone(self.error, self.response, self.data)
     }
 
