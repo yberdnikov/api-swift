@@ -9,6 +9,38 @@ import Foundation
 
 class Ordrin {
     
+    // declare class variables
+    let apiKey : String
+    let environment : String
+    let urls : Dictionary<String,String>
+    
+    // initialize instance of class
+    init(apiKey: String, environment: String) {
+        self.apiKey = apiKey
+        self.environment = environment
+        
+        if(environment == "test") {
+            urls = [
+                "restaurant" : "https://r-test.ordr.in",
+                "order" : "https://o-test.ordr.in",
+                "user" : "https://u-test.ordr.in"
+            ]
+        } else { // environment == "production"
+            urls = [
+                "restaurant" : "https://r.ordr.in",
+                "order" : "https://o.ordr.in",
+                "user" : "https://u.ordr.in"
+            ]
+        }
+    }
+    
+    func makeApiRequest( apiGroup : String, endpointPattern : String, parameters: String[] /*, callback : typeIn -> typeOut */ ) -> String {
+        var server = urls[apiGroup]
+        var authentication = "_auth=1,\(apiKey)"
+        println(server)
+        return "done!"
+    }
+    
     class func waitFor (inout wait: Bool) {
         while (wait) {
             NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 0.1))
@@ -26,6 +58,7 @@ class Ordrin {
         var request = NSURLRequest(URL: newUrl)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) in
             println(NSString(data: data, encoding: NSUTF8StringEncoding))
+            println(response)
             wait = false
         })
         waitFor(&wait)
