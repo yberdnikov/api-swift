@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "36725630193E42E70019673A"
-               BuildableName = "api-swift.app"
+               BlueprintIdentifier = "22DE5FBD193E664D00DE3A88"
+               BuildableName = "api-swift"
                BlueprintName = "api-swift"
                ReferencedContainer = "container:api-swift.xcodeproj">
             </BuildableReference>
@@ -28,22 +28,12 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3672563D193E42E80019673A"
-               BuildableName = "api-swiftTests.xctest"
-               BlueprintName = "api-swiftTests"
-               ReferencedContainer = "container:api-swift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "36725630193E42E70019673A"
-            BuildableName = "api-swift.app"
+            BlueprintIdentifier = "22DE5FBD193E664D00DE3A88"
+            BuildableName = "api-swift"
             BlueprintName = "api-swift"
             ReferencedContainer = "container:api-swift.xcodeproj">
          </BuildableReference>
@@ -61,8 +51,8 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "36725630193E42E70019673A"
-            BuildableName = "api-swift.app"
+            BlueprintIdentifier = "22DE5FBD193E664D00DE3A88"
+            BuildableName = "api-swift"
             BlueprintName = "api-swift"
             ReferencedContainer = "container:api-swift.xcodeproj">
          </BuildableReference>
@@ -79,8 +69,8 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "36725630193E42E70019673A"
-            BuildableName = "api-swift.app"
+            BlueprintIdentifier = "22DE5FBD193E664D00DE3A88"
+            BuildableName = "api-swift"
             BlueprintName = "api-swift"
             ReferencedContainer = "container:api-swift.xcodeproj">
          </BuildableReference>
