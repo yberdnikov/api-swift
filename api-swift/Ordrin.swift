@@ -14,9 +14,10 @@ class Ordrin {
             NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 0.1))
         }
     }
-    /*
+    
+    
     class func restaurant_details(rid: String) {
-        var api_key = ""
+        var api_key = "npr4VdOikTqNnq9WFsdlX-XzIUC_x1Ne_7FTlbfTMcc"
         var url = "https://r-test.ordr.in/rd/\(rid)?_auth=1,\(api_key)"
         var wait: Bool = true
 
@@ -48,7 +49,7 @@ class Ordrin {
                 if (error) {
                     println("error: \(error)")
                 } else {
-                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) //as NSDictionary
+                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
                     println("results: \(results)")
                     wait = false
                 }
@@ -70,7 +71,7 @@ class Ordrin {
                 if (error) {
                     println("error: \(error)")
                 } else {
-                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) //as NSDictionary
+                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
                     println("results: \(results)")
                     wait = false
                 }
@@ -80,7 +81,7 @@ class Ordrin {
     }
     
     class func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String) {
-        var api_key = ""
+        var api_key = "8l3kW3pv2UZXOebdQ-YU9qoUeE8GPPzj7_We-WxbKek"
         var url = "https://r-test.ordr.in/fee/\(rid)/\(subtotal)/\(tip)/\(datetime)/\(zip)/\(city)/\(addr)?_auth=1,\(api_key)"
         var encodedUrl: NSString = url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding);
         println(encodedUrl)
@@ -92,7 +93,7 @@ class Ordrin {
                 if (error) {
                     println("error: \(error)")
                 } else {
-                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) //as NSDictionary
+                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
                     println("results: \(results)")
                     wait = false
                 }
@@ -100,5 +101,5 @@ class Ordrin {
         
         waitFor(&wait)
     }
-    */
+
 }

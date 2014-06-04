@@ -9,4 +9,14 @@
 import Foundation
 
 //Ordrin.restaurant_details("147")
-Ordrin.fee("23844", subtotal: "22.00", tip: "5.00", datetime: "ASAP", zip: "10010", city: "New York", addr: "902 Broadway")
+//Ordrin.fee("23844", subtotal: "22.00", tip: "5.00", datetime: "ASAP", zip: "10010", city: "New York", addr: "902 Broadway")
+
+
+
+
+
+//Crypto test code
+var crypto: Crypto = Crypto()
+
+var temp: NSString = "hello world"
+println(crypto.sha256HashFor(temp))
