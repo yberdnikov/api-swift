@@ -14,7 +14,7 @@ class Ordrin {
             NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 0.1))
         }
     }
-    
+    /*
     class func restaurant_details(rid: String) {
         var api_key = "orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck"
         var wait: Bool = true
@@ -33,5 +33,5 @@ class Ordrin {
             })
         waitFor(&wait)
     }
-    
+    */
 }

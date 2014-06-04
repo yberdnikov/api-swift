@@ -91,13 +91,21 @@ class Agent: NSObject {
         data: Dictionary<String, AnyObject>) -> Agent {
             return Agent.put(url).send(data)
     }
+    
+    class func post(url: String,
+        data: Dictionary<String, AnyObject>,
+        done: (NSError?, NSHTTPURLResponse?, data: NSData?) -> ()) -> Agent {
+            println("correct post")
+            return Agent.put(url, data: data).send(data).end(done)
+    }
 
     class func post(url: String,
         data: Dictionary<String, AnyObject>,
         done: (NSError?, NSHTTPURLResponse?) -> ()) -> Agent {
+            println("bad post")
             return Agent.put(url, data: data).send(data).end(done)
     }
-
+    
     class func post(url: String,
         headers: Dictionary<String, String>,
         data: Dictionary<String, AnyObject>,
@@ -105,6 +113,13 @@ class Agent: NSObject {
             return Agent.put(url, headers: headers, data: data).send(data).end(done)
     }
 
+    class func post(url: String,
+        headers: Dictionary<String, String>,
+        data: Dictionary<String, AnyObject>,
+        done: (NSError?, NSHTTPURLResponse?, data: NSData?) -> ()) -> Agent {
+            return Agent.put(url, headers: headers, data: data).send(data).end(done)
+    }
+    
     /**
     * PUT
     */
@@ -171,6 +186,7 @@ class Agent: NSObject {
         // TODO: handle error
         self.set("Content-Type", value: "application/json")
         self.request!.HTTPBody = json
+        println(data)
         return self
     }
 
@@ -179,6 +195,7 @@ class Agent: NSObject {
         return self
     }
 
+    
     func end(myDone: (NSError?, NSHTTPURLResponse?, NSData?) -> ()) -> Agent {
         println("printing correct end")
         self.myDone = myDone
@@ -186,13 +203,14 @@ class Agent: NSObject {
         return self
     }
     
+    
     func end(done: (NSError?, NSHTTPURLResponse?) -> ()) -> Agent {
         println("printing wrong end")
         self.done = done
         let connection = NSURLConnection(request: self.request, delegate: self, startImmediately: true)
         return self
     }
-    
+
 
     /**
     * Delegate
@@ -205,6 +223,7 @@ class Agent: NSObject {
 
     func connection(connection: NSURLConnection!, didFailWithError error: NSError!) {
         println("handling error")
+        println(error)
         self.error = error
     }
     
@@ -217,6 +236,7 @@ class Agent: NSObject {
         println("request complete")
         println(self.error)
         println(self.response)
+        println(self.data)
         self.myDone(self.error, self.response, self.data)
     }
 

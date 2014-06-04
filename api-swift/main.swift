@@ -16,7 +16,9 @@ func waitFor (inout wait: Bool) {
     
     var wait: Bool = true
 
-    Agent.get("https://r-test.ordr.in/rd/147?_auth=1,8l3kW3pv2UZXOebdQ-YU9qoUeE8GPPzj7_We-WxbKek",
+/*
+
+    Agent.get("http://localhost:8000/testGet",
         done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
   
             if (error) {
@@ -25,11 +27,31 @@ func waitFor (inout wait: Bool) {
             } else {
                 var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
                 
-                println(results["addr"])
+                println(results["text"])
                 wait = false
             }
         })
-   
+*/
+
+
+    Agent.post("http://localhost:8000/testPost",
+        data: ["text": "hi"],
+        done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
+        if (error) {
+            println("error 2")
+            return
+        } else {
+            var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
+            
+            println(results)
+        }
+            
+            
+            wait = false
+    })
+
+
+
     waitFor(&wait)
 
 println("done")
