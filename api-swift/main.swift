@@ -8,50 +8,5 @@
 
 import Foundation
 
-func waitFor (inout wait: Bool) {
-    while (wait) {
-        NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 0.1))
-    }
-}
-    
-    var wait: Bool = true
-
-/*
-
-    Agent.get("http://localhost:8000/testGet",
-        done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
-  
-            if (error) {
-                println("error 2")
-                return
-            } else {
-                var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
-                
-                println(results["text"])
-                wait = false
-            }
-        })
-*/
-
-
-    Agent.post("http://localhost:8000/testPost",
-        data: ["text": "hi"],
-        done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
-        if (error) {
-            println("error 2")
-            return
-        } else {
-            var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
-            
-            println(results)
-        }
-            
-            
-            wait = false
-    })
-
-
-
-    waitFor(&wait)
-
-println("done")
+//Ordrin.restaurant_details("147")
+Ordrin.fee("23844", subtotal: "22.00", tip: "5.00", datetime: "ASAP", zip: "10010", city: "New York", addr: "902 Broadway")

@@ -19,7 +19,7 @@ class Agent: NSObject {
     var myDone: (NSError?, NSHTTPURLResponse?, NSData?) -> () = { (_: NSError?, _: NSHTTPURLResponse?, _: NSData?) -> () in }
     var error: NSError? = nil
     var response: NSHTTPURLResponse? = nil
-    var data: NSData? = nil
+    var data: NSMutableData = NSMutableData()
 
     /**
     * Initialize
@@ -42,7 +42,6 @@ class Agent: NSObject {
 
     class func get(url: String) -> Agent {
         println("basic get")
-        print(url)
         return Agent(method: "GET", url: url, headers: nil)
     }
 
@@ -229,7 +228,7 @@ class Agent: NSObject {
     
     func connection(connection: NSURLConnection!, didReceiveData data: NSData!){
         println("handling data")
-        self.data = data
+        self.data.appendData(data)
     }
 
     func connectionDidFinishLoading(connection: NSURLConnection!){

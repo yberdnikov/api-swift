@@ -16,21 +16,88 @@ class Ordrin {
     }
     /*
     class func restaurant_details(rid: String) {
-        var api_key = "orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck"
+        var api_key = ""
+        var url = "https://r-test.ordr.in/rd/\(rid)?_auth=1,\(api_key)"
         var wait: Bool = true
 
-        //var url = "http://r-test.ordr.in/rd/\(rid)"
-        var url = "http:/headers.jsontest.com"
-        println("Sending req")
-        println(url)
-        Agent.get(url, headers: "X-NAAMA-CLIENT-AUTHENTICATION", value: "id=\" \(api_key) \", version=\"1\"", done: { (error: NSError?, response: NSHTTPURLResponse?) -> () in
-            if (error) {
-                println(error)
-                return
-            }
-            println(response!)
-            wait = false
+        Agent.get(url,
+            done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
+                if (error) {
+                    println("error: \(error)")
+                    return
+                } else {
+                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
+                    println(results)
+                    wait = false
+                }
             })
+        
+        waitFor(&wait)
+    }
+    
+    class func delivery_list(datetime: String, zip: String, city: String, addr: String) {
+        var api_key = ""
+        var url = "https://r-test.ordr.in/dl/\(datetime)/\(zip)/\(city)/\(addr)?_auth=1,\(api_key)"
+        var encodedUrl: NSString = url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding);
+        println(encodedUrl)
+        var wait: Bool = true
+        
+        Agent.get(encodedUrl,
+            done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
+                println("disri")
+                if (error) {
+                    println("error: \(error)")
+                } else {
+                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) //as NSDictionary
+                    println("results: \(results)")
+                    wait = false
+                }
+            })
+        
+        waitFor(&wait)
+    }
+    
+    class func delivery_check(rid: String, datetime: String, zip: String, city: String, addr: String) {
+        var api_key = ""
+        var url = "https://r-test.ordr.in/dc/\(rid)/\(datetime)/\(zip)/\(city)/\(addr)?_auth=1,\(api_key)"
+        var encodedUrl: NSString = url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding);
+        println(encodedUrl)
+        var wait: Bool = true
+        
+        Agent.get(encodedUrl,
+            done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
+                println("disri")
+                if (error) {
+                    println("error: \(error)")
+                } else {
+                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) //as NSDictionary
+                    println("results: \(results)")
+                    wait = false
+                }
+            })
+        
+        waitFor(&wait)
+    }
+    
+    class func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String) {
+        var api_key = ""
+        var url = "https://r-test.ordr.in/fee/\(rid)/\(subtotal)/\(tip)/\(datetime)/\(zip)/\(city)/\(addr)?_auth=1,\(api_key)"
+        var encodedUrl: NSString = url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding);
+        println(encodedUrl)
+        var wait: Bool = true
+        
+        Agent.get(encodedUrl,
+            done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
+                println("disri")
+                if (error) {
+                    println("error: \(error)")
+                } else {
+                    var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) //as NSDictionary
+                    println("results: \(results)")
+                    wait = false
+                }
+            })
+        
         waitFor(&wait)
     }
     */
