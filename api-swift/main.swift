@@ -9,6 +9,7 @@
 import Foundation
 
 //Ordrin.restaurant_details("147")
+//Ordrin.fee("23844", subtotal: "22.00", tip: "5.00", datetime: "ASAP", zip: "10010", city: "New York", addr: "902 Broadway")
 
 var myOrdrin = Ordrin(apiKey: "orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck", environment: "test")
 
@@ -39,3 +40,12 @@ waitFor(&wait)
 //myOrdrin.fee("147", subtotal: "20.42", tip: "5.05", datetime: "ASAP", zip: "77840", city: "College Station", addr: "1 Main St")
 
 println("Hey")
+
+
+//Crypto test code
+var crypto: Crypto = Crypto()
+
+var temp: NSString = "hello world"
+println(crypto.sha256HashFor(temp))
+
+

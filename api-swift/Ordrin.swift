@@ -57,7 +57,6 @@ class Ordrin {
             })
     }
 
-    
     func restaurant_details(rid: String, callback: (NSError?, NSDictionary?) -> ()) {
         makeApiRequest("restaurant", endpointPath: "/rd", parameters: [rid], callback: callback)
     }
