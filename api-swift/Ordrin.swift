@@ -67,10 +67,9 @@ class Ordrin {
         var required = ["rid"]
         
         if validateParams(params, required: required){
-            makeApiRequest("restaurant", endpointPath: "/rd", parameters: parameters, callback: callback)
+            //makeApiRequest("restaurant", endpointPath: "/rd", parameters: parameters, callback: callback)
         }
     }
-    
     
     func delivery_list(datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
         makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr], callback: callback)
@@ -93,5 +92,12 @@ class Ordrin {
         }
         
         return true
+    }
+    
+    func hashUser(password: String, email: String, uri: String) -> NSString{
+        var crypto: Crypto = Crypto()
+        var pass_hash = crypto.sha256HashFor(password)
+        
+        return crypto.sha256HashFor(pass_hash + email + uri)
     }
 }

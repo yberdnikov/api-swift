@@ -56,4 +56,5 @@ var crypto: Crypto = Crypto()
 var temp: NSString = "hello world"
 println(crypto.sha256HashFor(temp))
 
+println(myOrdrin.hashUser("temppass", email: "reggi@gmail.com", uri: "/path"))
 
