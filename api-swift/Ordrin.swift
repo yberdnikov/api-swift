@@ -60,6 +60,17 @@ class Ordrin {
     func restaurant_details(rid: String, callback: (NSError?, NSDictionary?) -> ()) {
         makeApiRequest("restaurant", endpointPath: "/rd", parameters: [rid], callback: callback)
     }
+
+    func restaurant_details(params: Dictionary<String, String>, callback: (NSError?, NSDictionary?) -> ()) {
+        var pathTpl = "/rd/:rid"
+        var parameters = Dictionary<String, String>()
+        
+        for (param, value) in params {
+            parameters[param] = value
+        }
+        
+        makeApiRequest("restaurant", endpointPath: "/rd", parameters: parameters, pathTpl: pathTpl, callback: callback)
+    }
     
     func delivery_list(datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
         makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr], callback: callback)
