@@ -16,7 +16,7 @@ class Agent: NSObject {
 
     var request: NSMutableURLRequest? = nil
     var done: (NSError?, NSHTTPURLResponse?) -> () = { (_: NSError?, _: NSHTTPURLResponse?) -> () in }
-    var myDone: (NSError?, NSHTTPURLResponse?, NSData?) -> () = { (_: NSError?, _: NSHTTPURLResponse?, _: NSData?) -> () in }
+    var myDone: (NSError?, NSHTTPURLResponse?, NSMutableData?) -> () = { (_: NSError?, _: NSHTTPURLResponse?, _: NSData?) -> () in }
     var error: NSError? = nil
     var response: NSHTTPURLResponse? = nil
     var data: NSMutableData = NSMutableData()
@@ -50,7 +50,7 @@ class Agent: NSObject {
     }
 
     
-    class func get(url: String, done: (NSError?, NSHTTPURLResponse?, NSData?) -> ()) -> Agent {
+    class func get(url: String, done: (NSError?, NSHTTPURLResponse?, NSMutableData?) -> ()) -> Agent {
         println("printing correct get")
         return Agent.get(url).end(done)
     }
@@ -64,7 +64,7 @@ class Agent: NSObject {
         return Agent.get(url, headers: headers).end(done)
     }
 
-    class func get(url: String, headers: Dictionary<String, String>, done: (NSError?, NSHTTPURLResponse?, NSData?) -> ()) -> Agent {
+    class func get(url: String, headers: Dictionary<String, String>, done: (NSError?, NSHTTPURLResponse?, NSMutableData?) -> ()) -> Agent {
         return Agent.get(url, headers: headers).end(done)
     }
     
@@ -93,7 +93,7 @@ class Agent: NSObject {
     
     class func post(url: String,
         data: Dictionary<String, AnyObject>,
-        done: (NSError?, NSHTTPURLResponse?, data: NSData?) -> ()) -> Agent {
+        done: (NSError?, NSHTTPURLResponse?, data: NSMutableData?) -> ()) -> Agent {
             println("correct post")
             return Agent.put(url, data: data).send(data).end(done)
     }
@@ -115,7 +115,7 @@ class Agent: NSObject {
     class func post(url: String,
         headers: Dictionary<String, String>,
         data: Dictionary<String, AnyObject>,
-        done: (NSError?, NSHTTPURLResponse?, data: NSData?) -> ()) -> Agent {
+        done: (NSError?, NSHTTPURLResponse?, data: NSMutableData?) -> ()) -> Agent {
             return Agent.put(url, headers: headers, data: data).send(data).end(done)
     }
     
@@ -191,6 +191,13 @@ class Agent: NSObject {
 
     func set(header: String, value: String) -> Agent {
         self.request!.setValue(value, forHTTPHeaderField: header)
+        return self
+    }
+    
+    func end(myDone: (NSError?, NSHTTPURLResponse?, NSMutableData?) -> ()) -> Agent {
+        println("printing correct end")
+        self.myDone = myDone
+        let connection = NSURLConnection(request: self.request, delegate: self, startImmediately: true)
         return self
     }
 
