@@ -64,13 +64,13 @@ class Ordrin {
     func restaurant_details(params: Dictionary<String, String>, callback: (NSError?, NSDictionary?) -> ()) {
         var pathTpl = "/rd/:rid"
         var parameters = Dictionary<String, String>()
+        var required = ["rid"]
         
-        for (param, value) in params {
-            parameters[param] = value
+        if validateParams(params, required: required){
+            makeApiRequest("restaurant", endpointPath: "/rd", parameters: parameters, callback: callback)
         }
-        
-        makeApiRequest("restaurant", endpointPath: "/rd", parameters: parameters, pathTpl: pathTpl, callback: callback)
     }
+    
     
     func delivery_list(datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
         makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr], callback: callback)
@@ -82,5 +82,16 @@ class Ordrin {
     
     func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
         makeApiRequest("restaurant", endpointPath: "/fee", parameters: [rid, subtotal, tip, datetime, zip, city, addr], callback: callback)
+    }
+    
+    func validateParams(params: Dictionary<String, String>, required: String[]) -> Bool{
+        for key in required {
+            if !params[key] {
+                println("ERROR: required field '\(key)' not found")
+                return false
+            }
+        }
+        
+        return true
     }
 }
