@@ -28,7 +28,7 @@ if tmp.toInt() {
     println("not int found")
 }
 
-
+/*
 myOrdrin.restaurant_details("147", callback: {(error: NSError?, data: NSDictionary?) -> () in
     println("got into callback")
     if(error) {
@@ -39,8 +39,8 @@ myOrdrin.restaurant_details("147", callback: {(error: NSError?, data: NSDictiona
         wait = false
     }
 })
+*/
 
-waitFor(&wait)
 
 
 //myOrdrin.delivery_check("147", datetime: "ASAP", zip: "77840", city: "College Station", addr: "1 Main Street")
@@ -58,3 +58,60 @@ println(crypto.sha256HashFor(temp))
 
 println(myOrdrin.hashUser("temppass", email: "reggi@gmail.com", uri: "/path"))
 
+var myDict = Dictionary<String, String>()
+
+
+/*
+//restaurant details test
+myDict["rid"] = "147"
+myOrdrin.restaurant_details(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("success")
+    println(data)
+    wait = false
+})
+*/
+
+/*
+//delivery list test
+myDict["datetime"] = "ASAP";
+myDict["zip"] = "08820";
+myDict["city"] = "Edison";
+myDict["addr"] = "14 Annette Drive";
+myOrdrin.delivery_list(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("success")
+    println(data)
+    wait = false
+    })
+*/
+
+/*
+//delivery check test
+myDict["rid"] = "147"
+myDict["datetime"] = "ASAP";
+myDict["zip"] = "77840";
+myDict["city"] = "College Station";
+myDict["addr"] = "1 Main Street";
+myOrdrin.delivery_check(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+println("success")
+println(data)
+wait = false
+})
+*/
+
+/*
+//fee test
+myDict["rid"] = "147"
+myDict["subtotal"] = "20.42";
+myDict["tip"] = "5.05";
+myDict["datetime"] = "ASAP";
+myDict["addr"] = "1 Main Street";
+myDict["city"] = "College Station";
+myDict["zip"] = "77840";
+myOrdrin.fee(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("success")
+    println(data)
+    wait = false
+    })
+*/
+
+waitFor(&wait)

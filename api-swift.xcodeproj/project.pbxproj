@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A99DF0B19410936009AD40E /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A99DF0A19410936009AD40E /* Crypto.m */; };
 		22A9A251193FA93200C21E52 /* Ordrin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DE5FCA193E6B9700DE3A88 /* Ordrin.swift */; };
 		22DE5FC2193E664D00DE3A88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DE5FC1193E664D00DE3A88 /* main.swift */; };
 		22DE5FC9193E672400DE3A88 /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DE5FC8193E672400DE3A88 /* Agent.swift */; };
@@ -25,6 +26,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A99DF081941092F009AD40E /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crypto.h; sourceTree = "<group>"; };
+		0A99DF0919410936009AD40E /* api-swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "api-swift-Bridging-Header.h"; sourceTree = "<group>"; };
+		0A99DF0A19410936009AD40E /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crypto.m; sourceTree = "<group>"; };
 		22DE5FBE193E664D00DE3A88 /* api-swift */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "api-swift"; sourceTree = BUILT_PRODUCTS_DIR; };
 		22DE5FC1193E664D00DE3A88 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		22DE5FC8193E672400DE3A88 /* Agent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
@@ -63,7 +67,10 @@
 			children = (
 				22DE5FC1193E664D00DE3A88 /* main.swift */,
 				22DE5FCA193E6B9700DE3A88 /* Ordrin.swift */,
+				0A99DF081941092F009AD40E /* Crypto.h */,
+				0A99DF0A19410936009AD40E /* Crypto.m */,
 				22DE5FC8193E672400DE3A88 /* Agent.swift */,
+				0A99DF0919410936009AD40E /* api-swift-Bridging-Header.h */,
 			);
 			path = "api-swift";
 			sourceTree = "<group>";
@@ -124,6 +131,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A99DF0B19410936009AD40E /* Crypto.m in Sources */,
 				22DE5FC2193E664D00DE3A88 /* main.swift in Sources */,
 				22A9A251193FA93200C21E52 /* Ordrin.swift in Sources */,
 				22DE5FC9193E672400DE3A88 /* Agent.swift in Sources */,
@@ -211,14 +219,21 @@
 		22DE5FC6193E664D00DE3A88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "api-swift/api-swift-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		22DE5FC7193E664D00DE3A88 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "api-swift/api-swift-Bridging-Header.h";
 			};
 			name = Release;
 		};
