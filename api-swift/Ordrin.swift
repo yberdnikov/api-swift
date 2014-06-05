@@ -34,7 +34,8 @@ class Ordrin {
         }
     }
     
-    func makeApiRequest( apiGroup : String, endpointPath : String, pathTpl: String, userAuth: Bool = false, parameters: Dictionary<String, String>, postFields: String[]?, callback : (NSError?, NSDictionary?) -> () ) {
+    func makeApiRequest( apiGroup : String, endpointPath : String, pathTpl: String, userAuth: Bool = false, parameters: Dictionary<String, String>, postFields: String[]?, callback : (NSError?, AnyObject?) -> () ) {
+
         // set up the host + path
         var uri = endpointPath
         var postData: Dictionary<String, AnyObject> = [:]
@@ -72,7 +73,7 @@ class Ordrin {
         if postFields {
             Agent.post(encodedUrl,
                 data: postData,
-                done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
+                done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
                     if (error) {
                         callback(error, nil)
                     } else {
@@ -82,34 +83,82 @@ class Ordrin {
                 })
         } else {
             Agent.get(encodedUrl,
-                done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSData?) -> () in
+                done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
                     if (error) {
                         callback(error, nil)
                     } else {
-                        var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
+                        var results : AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
+                        println(results)
                         callback(nil, results)
                     }
                 })
         }
     }
-
+/*
     func restaurant_details(rid: String, callback: (NSError?, NSDictionary?) -> ()) {
         //makeApiRequest("restaurant", endpointPath: "/rd", parameters: [rid], postFields: [], callback: callback)
     }
-    
+*/
+    func restaurant_details(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var endpointPath = "/rd"
+        var pathTpl = "/:rid"
+        var required = ["rid"]
+        
+        if validateParams(params, required: required){
+            makeApiRequest("restaurant", endpointPath: endpointPath, pathTpl: pathTpl, parameters: params, postFields: nil, callback: callback)
+        }
+    }
+  
+    /*
     func delivery_list(datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
         //makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr], postFields: [], callback: callback)
     }
+    */
+    
+    func delivery_list(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        println("list called")
+        var endpointPath = "/dl"
+        var pathTpl = "/:datetime/:zip/:city/:addr"
+        var required = ["datetime", "zip", "city", "addr"]
+        
+        if validateParams(params, required: required){
+            makeApiRequest("restaurant", endpointPath: endpointPath, pathTpl: pathTpl, parameters: params, postFields: nil, callback: callback)
+        }
+    }
+    
     
     func delivery_check(rid: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
         //makeApiRequest("restaurant", endpointPath: "/dc", parameters: [rid, datetime, zip, city, addr], postFields: [], callback: callback)
     }
     
-    func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
+    func delivery_check(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        println("check called")
+        var endpointPath = "/dc"
+        var pathTpl = "/:rid/:datetime/:zip/:city/:addr"
+        var required = ["rid", "datetime", "zip", "city", "addr"]
+        
+        if validateParams(params, required: required){
+            makeApiRequest("restaurant", endpointPath: endpointPath, pathTpl: pathTpl, parameters: params, postFields: nil, callback: callback)
+        }
+    }
+
+    func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, AnyObject?) -> ()) {
         //makeApiRequest("restaurant", endpointPath: "/fee", parameters: [rid, subtotal, tip, datetime, zip, city, addr], postFields: [], callback: callback)
     }
     
-    func guest_order(parameters: Dictionary<String, String>, callback: (NSError?, NSDictionary?) -> ()) {
+    func fee(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        println("fee called")
+        var endpointPath = "/fee"
+        var pathTpl = "/:rid/:subtotal/:tip/:datetime/:zip/:city/:addr"
+        var required = ["rid", "subtotal", "tip", "datetime", "zip", "city", "addr"]
+        
+        if validateParams(params, required: required){
+            makeApiRequest("restaurant", endpointPath: endpointPath, pathTpl: pathTpl, parameters: params, postFields: nil, callback: callback)
+        }
+    }
+
+    
+    func guest_order(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         
         var postFields: String[] = ["tray", "tip", "delivery_date", "first_name", "last_name", "addr", "city",
             "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",

@@ -27,9 +27,8 @@ if tmp.toInt() {
 } else {
     println("not int found")
 }
-
-
 myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol"], callback: {(error: NSError?, data: NSDictionary?) -> () in
+
     println("got into callback")
     if(error) {
         println("error: \(error)")
@@ -40,7 +39,6 @@ myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol
     }
 })
 
-waitFor(&wait)
 
 //myOrdrin.delivery_list("ASAP", zip: "77840", city: "College Station", addr: "102 Church Ave") // GIVES STRANGE ERROR
 //myOrdrin.fee("147", subtotal: "20.42", tip: "5.05", datetime: "ASAP", zip: "77840", city: "College Station", addr: "1 Main St")
@@ -54,4 +52,62 @@ var crypto: Crypto = Crypto()
 var temp: NSString = "hello world"
 println(crypto.sha256HashFor(temp))
 
+println(myOrdrin.hashUser("temppass", email: "reggi@gmail.com", uri: "/path"))
 
+var myDict = Dictionary<String, String>()
+
+
+/*
+//restaurant details test
+myDict["rid"] = "147"
+myOrdrin.restaurant_details(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("success")
+    println(data)
+    wait = false
+})
+*/
+
+/*
+//delivery list test
+myDict["datetime"] = "ASAP";
+myDict["zip"] = "08820";
+myDict["city"] = "Edison";
+myDict["addr"] = "14 Annette Drive";
+myOrdrin.delivery_list(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("success")
+    println(data)
+    wait = false
+    })
+*/
+
+/*
+//delivery check test
+myDict["rid"] = "147"
+myDict["datetime"] = "ASAP";
+myDict["zip"] = "77840";
+myDict["city"] = "College Station";
+myDict["addr"] = "1 Main Street";
+myOrdrin.delivery_check(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+println("success")
+println(data)
+wait = false
+})
+*/
+
+/*
+//fee test
+myDict["rid"] = "147"
+myDict["subtotal"] = "20.42";
+myDict["tip"] = "5.05";
+myDict["datetime"] = "ASAP";
+myDict["addr"] = "1 Main Street";
+myDict["city"] = "College Station";
+myDict["zip"] = "77840";
+myOrdrin.fee(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("success")
+    println(data)
+    wait = false
+    })
+*/
+
+waitFor(&wait)
