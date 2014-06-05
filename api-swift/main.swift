@@ -27,8 +27,8 @@ if tmp.toInt() {
 } else {
     println("not int found")
 }
-myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol"], callback: {(error: NSError?, data: NSDictionary?) -> () in
 
+myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol"], callback: {(error: NSError?, data: AnyObject?) -> () in
     println("got into callback")
     if(error) {
         println("error: \(error)")
@@ -37,7 +37,7 @@ myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol
         println("results: \(data)")
         wait = false
     }
-})
+    })
 
 
 //myOrdrin.delivery_list("ASAP", zip: "77840", city: "College Station", addr: "102 Church Ave") // GIVES STRANGE ERROR

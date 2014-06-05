@@ -168,7 +168,7 @@ class Ordrin {
         makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", parameters: parameters, postFields: postFields, callback: callback)
     }
     
-    func get_account_information(parameters: Dictionary<String, String>, callback: (NSError?, NSDictionary?) -> ()) {
+    func get_account_information(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
     }
     
