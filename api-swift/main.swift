@@ -21,6 +21,14 @@ func waitFor (inout wait: Bool) {
 
 var wait: Bool = true
 
+var tmp = "8312817"
+if tmp.toInt() {
+    println("int found")
+} else {
+    println("not int found")
+}
+
+
 myOrdrin.restaurant_details("147", callback: {(error: NSError?, data: NSDictionary?) -> () in
     println("got into callback")
     if(error) {
@@ -48,4 +56,5 @@ var crypto: Crypto = Crypto()
 var temp: NSString = "hello world"
 println(crypto.sha256HashFor(temp))
 
+println(myOrdrin.hashUser("temppass", email: "reggi@gmail.com", uri: "/path"))
 

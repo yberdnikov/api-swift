@@ -89,6 +89,16 @@ class Ordrin {
     func restaurant_details(rid: String, callback: (NSError?, NSDictionary?) -> ()) {
         //makeApiRequest("restaurant", endpointPath: "/rd", parameters: [rid], postFields: [], callback: callback)
     }
+
+    func restaurant_details(params: Dictionary<String, String>, callback: (NSError?, NSDictionary?) -> ()) {
+        var pathTpl = "/rd/:rid"
+        var parameters = Dictionary<String, String>()
+        var required = ["rid"]
+        
+        if validateParams(params, required: required){
+            //makeApiRequest("restaurant", endpointPath: "/rd", parameters: parameters, callback: callback)
+        }
+    }
     
     func delivery_list(datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
         //makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr], postFields: [], callback: callback)
@@ -110,5 +120,23 @@ class Ordrin {
         ]
         
         makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func validateParams(params: Dictionary<String, String>, required: String[]) -> Bool{
+        for key in required {
+            if !params[key] {
+                println("ERROR: required field '\(key)' not found")
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func hashUser(password: String, email: String, uri: String) -> NSString{
+        var crypto: Crypto = Crypto()
+        var pass_hash = crypto.sha256HashFor(password)
+        
+        return crypto.sha256HashFor(pass_hash + email + uri)
     }
 }
