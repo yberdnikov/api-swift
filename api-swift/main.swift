@@ -40,7 +40,7 @@ myOrdrin.restaurant_details("147", callback: {(error: NSError?, data: NSDictiona
     }
 })
 
-waitFor(&wait)
+
 
 
 //myOrdrin.delivery_check("147", datetime: "ASAP", zip: "77840", city: "College Station", addr: "1 Main Street")
@@ -58,3 +58,12 @@ println(crypto.sha256HashFor(temp))
 
 println(myOrdrin.hashUser("temppass", email: "reggi@gmail.com", uri: "/path"))
 
+var myDict = Dictionary<String, String>()
+myDict["rid"] = "147"
+myOrdrin.restaurant_details(myDict, callback: {(error: NSError?, data: NSDictionary?) -> () in
+    println("success")
+    println(data)
+    wait = false
+})
+
+waitFor(&wait)

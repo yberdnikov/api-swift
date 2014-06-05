@@ -42,7 +42,7 @@ class Ordrin {
         for path in pathTpl.componentsSeparatedByString("/"){
             if path.hasPrefix(":") {
                 var param = path.substringFromIndex(1)
-                urlPath += "/\(parameters[param]!)"
+                urlPath += "/\(parameters[param])"
             } else if(!path.isEmpty){
                 urlPath += "/\(path)"
             }
@@ -91,12 +91,13 @@ class Ordrin {
     }
 
     func restaurant_details(params: Dictionary<String, String>, callback: (NSError?, NSDictionary?) -> ()) {
-        var pathTpl = "/rd/:rid"
-        var parameters = Dictionary<String, String>()
+        println("details called")
+        var endpointPath = "/rd"
+        var pathTpl = "/:rid"
         var required = ["rid"]
         
         if validateParams(params, required: required){
-            //makeApiRequest("restaurant", endpointPath: "/rd", parameters: parameters, callback: callback)
+            makeApiRequest("restaurant", endpointPath: "/rd", pathTpl: "/:rid", parameters: params, postFields: nil, callback: callback)
         }
     }
     
