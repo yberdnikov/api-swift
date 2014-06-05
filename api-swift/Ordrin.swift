@@ -34,17 +34,17 @@ class Ordrin {
         }
     }
     
-    func makeApiRequest( apiGroup : String, endpointPath : String, pathTpl: String, parameters: Dictionary<String, String>, postFields: String[]?, callback : (NSError?, NSDictionary?) -> () ) {
+    func makeApiRequest( apiGroup : String, endpointPath : String, pathTpl: String, userAuth: Bool = false, parameters: Dictionary<String, String>, postFields: String[]?, callback : (NSError?, NSDictionary?) -> () ) {
         // set up the host + path
-        var urlPath = urls[apiGroup]! + endpointPath
+        var uri = endpointPath
         var postData: Dictionary<String, AnyObject> = [:]
         
         for path in pathTpl.componentsSeparatedByString("/"){
             if path.hasPrefix(":") {
                 var param = path.substringFromIndex(1)
-                urlPath += "/\(parameters[param]!)"
+                uri += "/\(parameters[param]!)"
             } else if(!path.isEmpty){
-                urlPath += "/\(path)"
+                uri += "/\(path)"
             }
         }
         
@@ -56,10 +56,17 @@ class Ordrin {
         }
         
         // add authentication (since we're not using headers yet)
-        urlPath += "?_auth=1,\(apiKey)"
+        if userAuth {
+            var email = parameters["email"]
+            var hashCode = hashUser(parameters["password"]!, email: email!, uri: uri)
+            uri += "?_auth=1,\(apiKey)&_uauth=1,\(email),\(hashCode)"
+        } else {
+            uri += "?_auth=1,\(apiKey)"
+        }
+        
         // sanity check
-        var encodedUrl : NSString = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-        println(urlPath)
+        var encodedUrl : NSString = "\(urls[apiGroup]!)\(uri)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+        println(encodedUrl)
         
         // Agent stuff
         if postFields {
@@ -110,5 +117,27 @@ class Ordrin {
         ]
         
         makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func get_account_information(parameters: Dictionary<String, String>, callback: (NSError?, NSDictionary?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func validateParams(params: Dictionary<String, String>, required: String[]) -> Bool{
+        for key in required {
+            if !params[key] {
+                println("ERROR: required field '\(key)' not found")
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func hashUser(password: String, email: String, uri: String) -> NSString{
+        var crypto: Crypto = Crypto()
+        var pass_hash = crypto.sha256HashFor(password)
+        
+        return crypto.sha256HashFor(pass_hash + email + uri)
     }
 }

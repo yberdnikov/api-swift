@@ -21,7 +21,15 @@ func waitFor (inout wait: Bool) {
 
 var wait: Bool = true
 
-myOrdrin.restaurant_details("147", callback: {(error: NSError?, data: NSDictionary?) -> () in
+var tmp = "8312817"
+if tmp.toInt() {
+    println("int found")
+} else {
+    println("not int found")
+}
+
+
+myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol"], callback: {(error: NSError?, data: NSDictionary?) -> () in
     println("got into callback")
     if(error) {
         println("error: \(error)")
@@ -34,8 +42,6 @@ myOrdrin.restaurant_details("147", callback: {(error: NSError?, data: NSDictiona
 
 waitFor(&wait)
 
-
-//myOrdrin.delivery_check("147", datetime: "ASAP", zip: "77840", city: "College Station", addr: "1 Main Street")
 //myOrdrin.delivery_list("ASAP", zip: "77840", city: "College Station", addr: "102 Church Ave") // GIVES STRANGE ERROR
 //myOrdrin.fee("147", subtotal: "20.42", tip: "5.05", datetime: "ASAP", zip: "77840", city: "College Station", addr: "1 Main St")
 
