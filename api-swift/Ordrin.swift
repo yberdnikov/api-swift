@@ -36,7 +36,7 @@ class Ordrin {
     
     func makeApiRequest( apiGroup : String, endpointPath : String, pathTpl : String, method : String = "get", userAuth : Bool = false, parameters : Dictionary<String, String>, postFields : String[]?, callback : (NSError?, AnyObject?) -> () ) {
         
-            // set up the host + path
+        // set up the host + path
         var uri = endpointPath
         var postData: Dictionary<String, AnyObject> = [:]
         
@@ -52,7 +52,9 @@ class Ordrin {
         // Initialize postData if post request is being made
         if postFields {
             for field in postFields!{
-                postData[field] = parameters[field]
+                if parameters[field] {
+                    postData[field] = parameters[field]
+                }
             }
         }
         
@@ -170,12 +172,22 @@ class Ordrin {
     
     func order_guest(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         
-        var postFields: String[] = ["tray", "tip", "delivery_date", "first_name", "last_name", "addr", "city",
-            "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",
+        var postFields: String[] = ["tray", "tip", "delivery_date", "delivery_time", "first_name", "last_name", "addr", "city", "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",
             "card_bill_addr", "card_bill_addr2", "card_bill_city", "card_bill_state", "card_bill_zip", "card_bill_phone"
         ]
         
         makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", method: "post", parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func order_user(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        
+        var postFields: String[] = ["email", "tray", "tip", "delivery_date", "first_name", "last_name", "addr", "city",
+            "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",
+            "card_bill_addr", "card_bill_addr2", "card_bill_city", "card_bill_state", "card_bill_zip", "card_bill_phone",
+            "nick", "card_nick"
+        ]
+        
+        makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", method: "post", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
     }
     
     func get_account_info(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
