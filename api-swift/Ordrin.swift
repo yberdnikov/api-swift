@@ -94,11 +94,7 @@ class Ordrin {
                 })
         }
     }
-/*
-    func restaurant_details(rid: String, callback: (NSError?, NSDictionary?) -> ()) {
-        //makeApiRequest("restaurant", endpointPath: "/rd", parameters: [rid], postFields: [], callback: callback)
-    }
-*/
+    
     func restaurant_details(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         var endpointPath = "/rd"
         var pathTpl = "/:rid"
@@ -108,12 +104,6 @@ class Ordrin {
             makeApiRequest("restaurant", endpointPath: endpointPath, pathTpl: pathTpl, parameters: params, postFields: nil, callback: callback)
         }
     }
-  
-    /*
-    func delivery_list(datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
-        //makeApiRequest("restaurant", endpointPath: "/dl", parameters: [datetime, zip, city, addr], postFields: [], callback: callback)
-    }
-    */
     
     func delivery_list(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         println("list called")
@@ -126,11 +116,6 @@ class Ordrin {
         }
     }
     
-    
-    func delivery_check(rid: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, NSDictionary?) -> ()) {
-        //makeApiRequest("restaurant", endpointPath: "/dc", parameters: [rid, datetime, zip, city, addr], postFields: [], callback: callback)
-    }
-    
     func delivery_check(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         println("check called")
         var endpointPath = "/dc"
@@ -140,10 +125,6 @@ class Ordrin {
         if validateParams(params, required: required){
             makeApiRequest("restaurant", endpointPath: endpointPath, pathTpl: pathTpl, parameters: params, postFields: nil, callback: callback)
         }
-    }
-
-    func fee(rid: String, subtotal: String, tip: String, datetime: String, zip: String, city: String, addr: String, callback: (NSError?, AnyObject?) -> ()) {
-        //makeApiRequest("restaurant", endpointPath: "/fee", parameters: [rid, subtotal, tip, datetime, zip, city, addr], postFields: [], callback: callback)
     }
     
     func fee(params: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
@@ -158,7 +139,7 @@ class Ordrin {
     }
 
     
-    func guest_order(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+    func order_guest(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         
         var postFields: String[] = ["tray", "tip", "delivery_date", "first_name", "last_name", "addr", "city",
             "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",
@@ -168,9 +149,35 @@ class Ordrin {
         makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", parameters: parameters, postFields: postFields, callback: callback)
     }
     
-    func get_account_information(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+    func get_account_info(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
     }
+    
+    func get_all_saved_addrs(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_saved_addr(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs/:nick", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_all_saved_ccs(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_saved_cc(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/:nick", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_order_history(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/orders/", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_order(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/orders/:oid", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    // Need to do all non get requests(put and delete) to finish the User API.
     
     func validateParams(params: Dictionary<String, String>, required: String[]) -> Bool{
         for key in required {
