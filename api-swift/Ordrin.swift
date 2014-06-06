@@ -71,7 +71,6 @@ class Ordrin {
         
         // Agent stuff - will refactor for more generality later
         if method == "post" {
-            println("postData \(postData)")
             Agent.post(encodedUrl,
                 data: postData,
                 done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
@@ -207,6 +206,15 @@ class Ordrin {
         password = crypto.sha256HashFor(password)
         newParams["pw"] = password
         makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email", method: "post", parameters: newParams, postFields: postFields, callback: callback)
+    }
+    
+    func create_addr(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var postFields: String[] = [
+            "email", "first_name", "last_name",
+            "nick", "addr", "addr2", "city", "state",
+            "zip", "phone"
+        ]
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs/:nick", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
     }
     
     // Need to do all non get requests(put and delete) to finish the User API.
