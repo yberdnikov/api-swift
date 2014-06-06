@@ -135,12 +135,24 @@ myDict["email"] = "reggi2@gmail.com"
 myDict["password"] = myOrdrin.hashUser("temppass", email: "reggi2@gmail.com", uri: "/u/reggi2@gmail.com/addr/work")
 myDict["nick"] = "work"
 
-Agent.delete("https://u-test.ordr.in/u/reggi2@gmail.com/addrs/work?_auth=1,orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck",
-    headers: myDict, done: {(error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
-        println("printing delete reqeust")
-        println(NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil))
-        wait = false
-    })
 
+myOrdrin.create_account(["email": "testSam@example.com", "pw": "testpass", "first_name": "test", "last_name": "test"], callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("got into callback")
+    if(error) {
+        println("error: \(error)")
+        wait = false
+    } else {
+        println("Response from create: \(data)")
+        myOrdrin.get_account_info(["email": "testSam@example.com", "password": "testpass"], callback: {(error: NSError?, data: AnyObject?) -> () in
+            if(error) {
+                println("error(get): \(error)")
+                wait = false
+            } else {
+                println("results(get): \(data)")
+                wait = false
+            }
+            })
+    }
+    })
 
 waitFor(&wait)
