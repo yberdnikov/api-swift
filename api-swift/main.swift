@@ -135,12 +135,66 @@ myDict["email"] = "reggi2@gmail.com"
 myDict["password"] = myOrdrin.hashUser("temppass", email: "reggi2@gmail.com", uri: "/u/reggi2@gmail.com/addr/work")
 myDict["nick"] = "work"
 
-Agent.delete("https://u-test.ordr.in/u/reggi2@gmail.com/addrs/work?_auth=1,orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck",
-    headers: myDict, done: {(error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
-        println("printing delete reqeust")
-        println(NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil))
-        wait = false
-    })
+/*
+Creat cc
+var params = ["email": "testSam2@example.com", "password": "testpass", "card_name": "Sam Agnew",
+        "card_cvc": "123", "expiry_month": "02", "expiry_year": "2016", "type": "visa", "bill_addr": "224 Maurice Blvd",
+        "bill_city": "Rio Grande", "bill_state": "NJ", "bill_zip": "08242", "bill_phone": "6107616189",
+        "number": "4111111111111111", "nick": "doge"
+    ]
+*/
 
+/*
+User order with no addr or cc
+var params = ["email": "testSam2@example.com", "password": "testpass", "card_name": "Sam Agnew",
+    "card_cvc": "123", "card_expiry": "02/2016", "card_bill_addr": "224 Maurice Blvd",
+    "card_bill_city": "Rio Grande", "card_bill_state": "NJ", "card_bill_zip": "08242", "card_bill_phone": "6107616189",
+    "card_number": "4111111111111111", "rid": "147", "tray": "4622452/1,+4622476/1",
+    "tip": "5.05", "delivery_date": "ASAP", "first_name": "Testy", "last_name": "tester", "addr": "1 Main Street",
+    "city": "College Station", "state": "TX", "zip": "77840", "phone": "6107616189"
+]*/
+
+/*
+User order with saved CC
+var params = ["email": "testSam2@example.com", "password": "testpass", "rid": "147", "tray": "4622452/1,+4622476/1",
+    "tip": "5.05", "delivery_date": "ASAP", "first_name": "Testy", "last_name": "tester", "addr": "1 Main Street",
+    "city": "College Station", "state": "TX", "zip": "77840", "phone": "6107616189", "card_nick": "doge"
+]
+*/
+
+/*
+Create Addr
+var params = ["email": "testSam2@example.com", "password": "testpass", "addr": "1 Main Street",
+    "city": "College Station", "state": "TX", "zip": "77840", "phone": "6107616189", "nick": "workAddr"
+]
+*/
+
+/*
+User order with saved addr
+var params = ["email": "testSam2@example.com", "password": "testpass", "card_name": "Sam Agnew",
+    "card_cvc": "123", "card_expiry": "02/2016", "card_bill_addr": "224 Maurice Blvd",
+    "card_bill_city": "Rio Grande", "card_bill_state": "NJ", "card_bill_zip": "08242", "card_bill_phone": "6107616189",
+    "card_number": "4111111111111111", "rid": "147", "tray": "4622452/1,+4622476/1",
+    "tip": "5.05", "delivery_date": "ASAP", "first_name": "Testy", "last_name": "tester", "nick": "workAddr"
+]
+*/
+
+/*
+User order with saved card and saved addr
+var params = ["email": "testSam2@example.com", "password": "testpass", "rid": "147", "tray": "4622452/1,+4622476/1",
+    "tip": "5.05", "delivery_date": "ASAP", "first_name": "Testy", "last_name": "tester", "nick": "workAddr", "card_nick": "doge"
+]
+*/
+
+myOrdrin.order_user(params, callback: {(error: NSError?, data: AnyObject?) -> () in
+    println("got into callback")
+    if(error) {
+        println("error: \(error)")
+        wait = false
+    } else {
+        println("results(get): \(data)")
+        wait = false
+    }
+})
 
 waitFor(&wait)

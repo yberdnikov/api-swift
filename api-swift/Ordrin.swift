@@ -34,8 +34,8 @@ class Ordrin {
         }
     }
     
-    func makeApiRequest( apiGroup : String, endpointPath : String, pathTpl: String, userAuth: Bool = false, parameters: Dictionary<String, String>, postFields: String[]?, callback : (NSError?, AnyObject?) -> () ) {
-
+    func makeApiRequest( apiGroup : String, endpointPath : String, pathTpl : String, method : String = "get", userAuth : Bool = false, parameters : Dictionary<String, String>, postFields : String[]?, callback : (NSError?, AnyObject?) -> () ) {
+        
         // set up the host + path
         var uri = endpointPath
         var postData: Dictionary<String, AnyObject> = [:]
@@ -52,14 +52,23 @@ class Ordrin {
         // Initialize postData if post request is being made
         if postFields {
             for field in postFields!{
-                postData[field] = parameters[field]
+                if parameters[field] {
+                    postData[field] = parameters[field]
+                }
             }
         }
         
         // add authentication (since we're not using headers yet)
         if userAuth {
             var email = parameters["email"]
-            var hashCode = hashUser(parameters["password"]!, email: email!, uri: uri)
+            var password: String = parameters["password"]!
+            
+            // Only when resetting password
+            if parameters["current_password"] {
+                password = parameters["current_password"]!
+            }
+            println("Password: \(password)")
+            var hashCode = hashUser(password, email: email!, uri: uri)
             uri += "?_auth=1,\(apiKey)&_uauth=1,\(email),\(hashCode)"
         } else {
             uri += "?_auth=1,\(apiKey)"
@@ -69,10 +78,32 @@ class Ordrin {
         var encodedUrl : NSString = "\(urls[apiGroup]!)\(uri)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
         println(encodedUrl)
         
-        // Agent stuff
-        if postFields {
+        // Agent stuff - will refactor for more generality later
+        if method == "post" {
             Agent.post(encodedUrl,
                 data: postData,
+                done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
+                    if (error) {
+                        callback(error, nil)
+                    } else {
+                        var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
+                        callback(nil, results)
+                    }
+                })
+        } else if method == "put" {
+            Agent.put(encodedUrl,
+                data: postData,
+                done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
+                    if (error) {
+                        callback(error, nil)
+                    } else {
+                        var results = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
+                        callback(nil, results)
+                    }
+                })
+        } else if method == "delete" {
+            Agent.delete(encodedUrl,
+                headers: [:],
                 done: { (error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
                     if (error) {
                         callback(error, nil)
@@ -141,12 +172,22 @@ class Ordrin {
     
     func order_guest(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         
-        var postFields: String[] = ["tray", "tip", "delivery_date", "first_name", "last_name", "addr", "city",
-            "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",
+        var postFields: String[] = ["tray", "tip", "delivery_date", "delivery_time", "first_name", "last_name", "addr", "city", "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",
             "card_bill_addr", "card_bill_addr2", "card_bill_city", "card_bill_state", "card_bill_zip", "card_bill_phone"
         ]
         
-        makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", parameters: parameters, postFields: postFields, callback: callback)
+        makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", method: "post", parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func order_user(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        
+        var postFields: String[] = ["email", "tray", "tip", "delivery_date", "first_name", "last_name", "addr", "city",
+            "state", "zip", "phone", "em", "password", "card_name", "card_number", "card_cvc", "card_expiry",
+            "card_bill_addr", "card_bill_addr2", "card_bill_city", "card_bill_state", "card_bill_zip", "card_bill_phone",
+            "nick", "card_nick"
+        ]
+        
+        makeApiRequest("order", endpointPath: "/o", pathTpl: "/:rid", method: "post", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
     }
     
     func get_account_info(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
@@ -175,6 +216,46 @@ class Ordrin {
     
     func get_order(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/orders/:oid", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func create_account(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var postFields: String[] = ["email", "pw", "first_name", "last_name"]
+        var password: String = parameters["pw"]!
+        var newParams = parameters
+        password = crypto.sha256HashFor(password)
+        newParams["pw"] = password
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email", method: "post", parameters: newParams, postFields: postFields, callback: callback)
+    }
+    
+    func create_addr(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var postFields: String[] = [
+            "email","nick", "addr", "addr2", "city", "state",
+            "zip", "phone"
+        ]
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs/:nick", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func create_cc(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var postFields: String[] = [
+            "email", "nick", "name", "number",
+            "cvc", "expiry_month", "expiry_year",
+            "type", "bill_addr", "bill_addr2", "bill_city",
+            "bill_state", "bill_zip", "bill_phone"
+        ]
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/:nick", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func change_password(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var postFields: String[] = ["password"]
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/password", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func delete_addr(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs/:nick", method: "delete", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func delete_cc(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/:nick", method: "delete", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
     }
     
     // Need to do all non get requests(put and delete) to finish the User API.

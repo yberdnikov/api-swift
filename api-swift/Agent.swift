@@ -88,35 +88,35 @@ class Agent: NSObject {
 
     class func post(url: String,
         data: Dictionary<String, AnyObject>) -> Agent {
-            return Agent.put(url).send(data)
+            return Agent.post(url).send(data)
     }
     
     class func post(url: String,
         data: Dictionary<String, AnyObject>,
         done: (NSError?, NSHTTPURLResponse?, data: NSMutableData?) -> ()) -> Agent {
             println("correct post")
-            return Agent.put(url, data: data).send(data).end(done)
+            return Agent.post(url, data: data).send(data).end(done)
     }
 
     class func post(url: String,
         data: Dictionary<String, AnyObject>,
         done: (NSError?, NSHTTPURLResponse?) -> ()) -> Agent {
             println("bad post")
-            return Agent.put(url, data: data).send(data).end(done)
+            return Agent.post(url, data: data).send(data).end(done)
     }
     
     class func post(url: String,
         headers: Dictionary<String, String>,
         data: Dictionary<String, AnyObject>,
         done: (NSError?, NSHTTPURLResponse?) -> ()) -> Agent {
-            return Agent.put(url, headers: headers, data: data).send(data).end(done)
+            return Agent.post(url, headers: headers, data: data).send(data).end(done)
     }
 
     class func post(url: String,
         headers: Dictionary<String, String>,
         data: Dictionary<String, AnyObject>,
         done: (NSError?, NSHTTPURLResponse?, data: NSMutableData?) -> ()) -> Agent {
-            return Agent.put(url, headers: headers, data: data).send(data).end(done)
+            return Agent.post(url, headers: headers, data: data).send(data).end(done)
     }
     
     /**
@@ -182,11 +182,11 @@ class Agent: NSObject {
     }
 
     class func delete(url: String, done: (NSError?, NSHTTPURLResponse?) -> ()) -> Agent {
-        return Agent.get(url).end(done)
+        return Agent.delete(url).end(done)
     }
 
     class func delete(url: String, headers: Dictionary<String, String>, done: (NSError?, NSHTTPURLResponse?) -> ()) -> Agent {
-        return Agent.get(url, headers: headers).end(done)
+        return Agent.delete(url, headers: headers).end(done)
     }
 
     /**
