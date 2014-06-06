@@ -114,4 +114,6 @@ myOrdrin.fee(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
     })
 */
 
+Agent.put
+
 waitFor(&wait)
