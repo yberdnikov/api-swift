@@ -172,6 +172,32 @@ class Ordrin {
         makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
     }
     
+    func get_all_saved_addresses(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_single_saved_address(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs/:nick", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_all_saved_credit_cards(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_single_saved_credit_card(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/:nick", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_order_history(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/orders/", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func get_order(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/orders/:oid", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    // Need to do all non get requests(put and delete) to finish the User API.
+    
     func validateParams(params: Dictionary<String, String>, required: String[]) -> Bool{
         for key in required {
             if !params[key] {
