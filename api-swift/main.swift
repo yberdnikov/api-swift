@@ -28,6 +28,7 @@ if tmp.toInt() {
     println("not int found")
 }
 
+/*
 myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol"], callback: {(error: NSError?, data: AnyObject?) -> () in
     println("got into callback")
     if(error) {
@@ -38,7 +39,7 @@ myOrdrin.get_account_information(["email": "lol@lol.com", "password": "lolololol
         wait = false
     }
     })
-
+*/
 
 //myOrdrin.delivery_list("ASAP", zip: "77840", city: "College Station", addr: "102 Church Ave") // GIVES STRANGE ERROR
 //myOrdrin.fee("147", subtotal: "20.42", tip: "5.05", datetime: "ASAP", zip: "77840", city: "College Station", addr: "1 Main St")
@@ -110,6 +111,36 @@ myOrdrin.fee(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
     })
 */
 
-Agent.put
+/*
+//put test
+myDict["email"] = "reggi2@gmail.com"
+myDict["password"] = myOrdrin.hashUser("temppass", email: "reggi2@gmail.com", uri: "/u/reggi2@gmail.com/addr/work")
+myDict["nick"] = "work"
+myDict["addr"] = "902 broadway"
+myDict["city"] = "New York"
+myDict["state"] = "NY"
+myDict["zip"] = "10010"
+myDict["phone"] = "2018938715"
+
+Agent.put("https://u-test.ordr.in/u/reggi2@gmail.com/addrs/work?_auth=1,orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck",
+    data: myDict, done: {(error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
+        println("printing put reqeust")
+        println(NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil))
+        wait = false
+    })
+*/
+
+//put test
+myDict["email"] = "reggi2@gmail.com"
+myDict["password"] = myOrdrin.hashUser("temppass", email: "reggi2@gmail.com", uri: "/u/reggi2@gmail.com/addr/work")
+myDict["nick"] = "work"
+
+Agent.delete("https://u-test.ordr.in/u/reggi2@gmail.com/addrs/work?_auth=1,orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck",
+    headers: myDict, done: {(error: NSError?, response: NSHTTPURLResponse?, data: NSMutableData?) -> () in
+        println("printing delete reqeust")
+        println(NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil))
+        wait = false
+    })
+
 
 waitFor(&wait)

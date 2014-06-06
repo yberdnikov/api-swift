@@ -122,7 +122,7 @@ class Agent: NSObject {
     /**
     * PUT
     */
-
+    
     class func put(url: String) -> Agent {
         return Agent(method: "PUT", url: url, headers: nil)
     }
@@ -131,6 +131,13 @@ class Agent: NSObject {
         return Agent(method: "PUT", url: url, headers: headers)
     }
 
+    class func put(url: String,
+        data: Dictionary<String, AnyObject>,
+        done: (NSError?, NSHTTPURLResponse?, data: NSMutableData?) -> ()) -> Agent {
+            println("correct put")
+            return Agent.put(url, data: data).send(data).end(done)
+    }
+    
     class func put(url: String,
         headers: Dictionary<String, String>,
         data: Dictionary<String, AnyObject>) -> Agent {
@@ -166,6 +173,13 @@ class Agent: NSObject {
     class func delete(url: String, headers: Dictionary<String, String>) -> Agent {
         return Agent(method: "DELETE", url: url, headers: headers)
     }
+    
+    class func delete(url: String,
+        headers: Dictionary<String, String>,
+        done: (NSError?, NSHTTPURLResponse?, data: NSMutableData?) -> ()) -> Agent {
+            println("correct delete")
+            return Agent.delete(url, headers: headers).send(headers).end(done)
+    }
 
     class func delete(url: String, done: (NSError?, NSHTTPURLResponse?) -> ()) -> Agent {
         return Agent.get(url).end(done)
@@ -189,6 +203,16 @@ class Agent: NSObject {
         return self
     }
 
+    func send(data: Dictionary<String, String>) -> Agent {
+        var error: NSError?
+        var json = NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions(0), error: &error)
+        // TODO: handle error
+        self.set("Content-Type", value: "application/json")
+        self.request!.HTTPBody = json
+        //println(data)
+        return self
+    }
+    
     func set(header: String, value: String) -> Agent {
         self.request!.setValue(value, forHTTPHeaderField: header)
         return self
