@@ -59,7 +59,14 @@ class Ordrin {
         // add authentication (since we're not using headers yet)
         if userAuth {
             var email = parameters["email"]
-            var hashCode = hashUser(parameters["password"]!, email: email!, uri: uri)
+            var password: String = parameters["password"]!
+            
+            // Only when resetting password
+            if parameters["current_password"] {
+                password = parameters["current_password"]!
+            }
+            println("Password: \(password)")
+            var hashCode = hashUser(password, email: email!, uri: uri)
             uri += "?_auth=1,\(apiKey)&_uauth=1,\(email),\(hashCode)"
         } else {
             uri += "?_auth=1,\(apiKey)"
@@ -210,11 +217,25 @@ class Ordrin {
     
     func create_addr(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
         var postFields: String[] = [
-            "email", "first_name", "last_name",
-            "nick", "addr", "addr2", "city", "state",
+            "email","nick", "addr", "addr2", "city", "state",
             "zip", "phone"
         ]
         makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs/:nick", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func create_cc(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var postFields: String[] = [
+            "email", "nick", "name", "number",
+            "cvc", "expiry_month", "expiry_year",
+            "type", "bill_addr", "bill_addr2", "bill_city",
+            "bill_state", "bill_zip", "bill_phone"
+        ]
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/:nick", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
+    }
+    
+    func change_password(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        var postFields: String[] = ["password"]
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/password", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
     }
     
     // Need to do all non get requests(put and delete) to finish the User API.
