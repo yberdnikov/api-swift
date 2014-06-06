@@ -238,6 +238,14 @@ class Ordrin {
         makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/password", method: "put", userAuth: true, parameters: parameters, postFields: postFields, callback: callback)
     }
     
+    func delete_addr(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/addrs/:nick", method: "delete", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
+    func delete_cc(parameters: Dictionary<String, String>, callback: (NSError?, AnyObject?) -> ()) {
+        makeApiRequest("user", endpointPath: "/u", pathTpl: "/:email/ccs/:nick", method: "delete", userAuth: true, parameters: parameters, postFields: nil, callback: callback)
+    }
+    
     // Need to do all non get requests(put and delete) to finish the User API.
     
     func validateParams(params: Dictionary<String, String>, required: String[]) -> Bool{

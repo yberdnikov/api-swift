@@ -135,15 +135,21 @@ myDict["email"] = "reggi2@gmail.com"
 myDict["password"] = myOrdrin.hashUser("temppass", email: "reggi2@gmail.com", uri: "/u/reggi2@gmail.com/addr/work")
 myDict["nick"] = "work"
 
+var params = ["email": "testSam2@example.com", "password": "testpass", "nick": "work3", "name": "Sam Agnew",
+        "cvc": "123", "expiry_month": "02", "expiry_year": "2016", "type": "visa", "bill_addr": "224 Maurice Blvd",
+        "bill_city": "Rio Grande", "bill_state": "NJ", "bill_zip": "08242", "bill_phone": "6107616189",
+        "number": "4111111111111111"
+    ]
 
-myOrdrin.create_account(["email": "testSam@example.com", "pw": "testpass", "first_name": "test", "last_name": "test"], callback: {(error: NSError?, data: AnyObject?) -> () in
+
+myOrdrin.delete_cc(params, callback: {(error: NSError?, data: AnyObject?) -> () in
     println("got into callback")
     if(error) {
         println("error: \(error)")
         wait = false
     } else {
         println("Response from create: \(data)")
-        myOrdrin.get_account_info(["email": "testSam@example.com", "password": "testpass"], callback: {(error: NSError?, data: AnyObject?) -> () in
+        myOrdrin.get_all_saved_ccs(["email": "testSam2@example.com", "password": "testpass"], callback: {(error: NSError?, data: AnyObject?) -> () in
             if(error) {
                 println("error(get): \(error)")
                 wait = false
