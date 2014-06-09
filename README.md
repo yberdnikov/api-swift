@@ -37,7 +37,7 @@ A Swift library for the ordr.in API.
 ## Installation
 1. Create a new group in your project directory labeled "Ordrin"
 2. Drag and drop all files in ```api-swift/``` into the group created above
-3. Check off all targets in "Add to targets"
+3. __Check off all targets in "Add to targets"__
 4. Click "Yes" when prompted to created bridging header files
 5. Add the line ```#import "Crypto.h"``` into all ```*-Bridging-Header.h``` files that should have been generated for you
 6. Done!
