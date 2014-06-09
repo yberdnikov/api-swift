@@ -35,7 +35,39 @@ A Swift library for the ordr.in API.
      
 
 ## Installation
-
+1. Create a new group in your project directory labeled "Ordrin"
+2. Drag and drop all files in ```api-swift/``` into the group created above
+3. Check off all targets in "Add to targets"
+4. Click "Yes" when prompted to created bridging header files
+5. Add the line ```#import "Crypto.h"``` into all ```*-Bridging-Header.h``` files that should have been generated for you
+6. Done!
+7. If you want to test the API, add this function into your unit test file and run "Product -> Test"
+```
+    //If you're running the code from a main function instead of a unit test, just add a line to actually execute the function
+    func testOrdrin() {
+        var myOrdrin = Ordrin(apiKey: "orqweJcnpgD4mxVRPKRTGAVbTGab33DlqqEDllP4Bck", environment: "test")
+        
+        var myDict = Dictionary<String, String>()
+        myDict["rid"] = "147"
+        
+        var wait: Bool = true
+        
+        myOrdrin.restaurant_details(myDict, callback: {(error: NSError?, data: AnyObject?) -> () in
+            println("success")
+            println(data)
+            wait = false
+            })
+        
+        waitFor(&wait)
+        
+    }
+    
+    func waitFor (inout wait: Bool){
+        while(wait){
+            NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 0.1))
+        }
+    }
+```
 
 ## Usage
 
