@@ -1,4 +1,4 @@
-# Ordr.in Node Library
+# Ordr.in Swift Library
 
 A Swift library for the ordr.in API.
 
